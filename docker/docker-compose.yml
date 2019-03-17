@@ -1,9 +1,0 @@
-version: '3'
-services: 
-  rust:
-    build:
-      context: ../sample
-      dockerfile: ../docker/Dockerfile
-      args: 
-        - project_name=${project_name}
-    image: kafuhamada/rust-docker
