@@ -34,3 +34,18 @@ jobs:
           command: |
             docker build database -t $DOCKER_USER/$image_name
             docker push $DOCKER_USER/$image_name
+  build2:
+    docker:
+      - image: alpine:3.9
+    steps:
+      - run:
+          name: test_echo
+          command: echo "hello"
+workflows:
+  version: 2
+  build:
+    jobs:
+      - build
+      - build2:
+          requires:
+            - build
