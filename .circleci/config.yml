@@ -9,7 +9,8 @@ jobs:
         name: cargo-test-sample 
         command: cargo test 
   build_image:
-    machine: true
+    docker:
+      - image: docker:18
     steps:
       - checkout
       - run:
