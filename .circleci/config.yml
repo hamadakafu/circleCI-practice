@@ -5,16 +5,16 @@ jobs:
       - image: rustlang/rust:nightly # the primary container, where your job's commands are run
     steps:
       - checkout # check out the code in the project directory
-      - setup_remote_docker:
-          version: 17
-          docker_layer_caching: true
+      # - setup_remote_docker:
+      #     version: 17
+      #     docker_layer_caching: true
       - run: 
         name: cargo-test-sample 
         command: cargo test
-      - run:
-        name: build_image
-        command: |
-          docker build sample -t ${DOCKER_USER}/rocket-sample
-          docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-          docker push ${DOCKER_USER}/rocket-sample
+      # - run:
+      #   name: build_image
+      #   command: |
+      #     docker build sample -t ${DOCKER_USER}/rocket-sample
+      #     docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+      #     docker push ${DOCKER_USER}/rocket-sample
           
