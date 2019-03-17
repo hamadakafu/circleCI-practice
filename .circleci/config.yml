@@ -1,6 +1,6 @@
 version: 2.1
 jobs:
-  cargo_test:
+  build:
     docker: 
       - image: rustlang/rust:nightly # the primary container, where your job's commands are run
     steps:
@@ -8,22 +8,13 @@ jobs:
       - run: 
         name: cargo-test-sample 
         command: cargo test 
-  build_image:
-    docker:
-      - image: docker:18
-    steps:
-      - checkout
+      - setup_remote_docker:
+          version: 17
+          docker_layer_caching: true
       - run:
         name: build_image
         command: |
           docker build sample -t ${DOCKER_USER}/rocket-sample
           docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
           docker push ${DOCKER_USER}/rocket-sample
-workflows:
-  version: 2
-  test_and_build:
-    jobs:
-      - cargo_test
-      - build_image:
-        requires:
-          - cargo_test
+          
