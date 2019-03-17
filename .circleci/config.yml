@@ -5,4 +5,4 @@ jobs:
       - image: rustlang/rust:nightly # the primary container, where your job's commands are run
     steps:
       - checkout # check out the code in the project directory
-      - run: cd sample && echo "hello world" # run the `echo` command - run: echo "A first hello"
+      - run: cd sample && cargo test # run the `echo` command - run: echo "A first hello"
