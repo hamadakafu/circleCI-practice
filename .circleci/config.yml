@@ -24,7 +24,7 @@ jobs:
             project_name: sample
             image_name: rust-docker
           command: |
-            docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
             docker-compose build -f docker/docker-compose.yml
-            docker push ${DOCKER_USER}/${image_name}
+            docker push $DOCKER_USER/${image_name}
          # todo: project_nameを渡せるように 
