@@ -50,7 +50,7 @@ jobs:
       - run:
           name: build_database_image
           command: |
-            docker build docker_dir -t $DOCKER_USER/$image_name
+            docker build $docker_dir -t $DOCKER_USER/$image_name
             docker push $DOCKER_USER/$image_name
 workflows:
   version: 2
