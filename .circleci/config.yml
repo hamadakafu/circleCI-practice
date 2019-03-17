@@ -21,7 +21,7 @@ jobs:
       - run:
           name: build_image
           command: |
-            docker build sample -t ${DOCKER_USER}/rocket-sample --build-arg project_name=sample
+            docker build -t ${DOCKER_USER}/rocket-sample --build-arg project_name=sample -f docker/Dockerfile sample
             docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
             docker push ${DOCKER_USER}/rocket-sample
-          
+         # todo: project_nameを渡せるように 
