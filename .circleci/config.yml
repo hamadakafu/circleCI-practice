@@ -19,7 +19,7 @@ jobs:
             tar -xz -C /tmp -f /tmp/docker-$VER.tgz
             mv /tmp/docker/* /usr/bin
             docker login -u $DOCKER_USER -p $DOCKER_PASS
-            docker pull $DOCKER_USER/$
+            docker pull $DOCKER_USER/$image_name
       - run:
           name: build_image
           command: |
