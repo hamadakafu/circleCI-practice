@@ -6,3 +6,11 @@ circleCI practice
 ## Dockerfile
 ARG hoge  
 docker build . --build-arg hoge=[term]
+
+## config.yml
+run のインデントに注意
+```yaml
+- run:
+    name: hoge
+    command: echo "fuga"
+```
