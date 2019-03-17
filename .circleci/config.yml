@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   cargo_test:
     docker: 
@@ -17,3 +17,11 @@ jobs:
         command: |
           docker build sample -t kafuhamada/rocket-sample
           docker push kafuhamada/rocket-sample
+workflows:
+  version: 2
+  test_and_build:
+    jobs:
+      - cargo_test
+      - build_image:
+        requires:
+          - cargo_test
