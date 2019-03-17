@@ -21,7 +21,7 @@ jobs:
       - run:
           name: build_image
           command: |
-            docker build sample -t ${DOCKER_USER}/rocket-sample
+            docker build sample -t ${DOCKER_USER}/rocket-sample -f docker/Dockerfile
             docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
             docker push ${DOCKER_USER}/rocket-sample
           
