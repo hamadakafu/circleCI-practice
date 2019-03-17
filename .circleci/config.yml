@@ -1,8 +1,19 @@
 version: 2
 jobs:
-  build:
-    docker: # use the docker executor type; machine and macos executors are also supported
+  cargo_test:
+    docker: 
       - image: rustlang/rust:nightly # the primary container, where your job's commands are run
     steps:
       - checkout # check out the code in the project directory
-      - run: cd sample && cargo test # run the `echo` command - run: echo "A first hello"
+      - run: 
+        name: cargo-test-sample 
+        command: cargo test 
+  build_image:
+    machine: true
+    steps:
+      - checkout
+      - run:
+        name: build_image
+        command: |
+          docker build sample -t kafuhamada/rocket-sample
+          docker push kafuhamada/rocket-sample
