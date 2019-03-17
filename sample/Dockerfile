@@ -9,7 +9,6 @@ RUN mkdir src/ && \
     echo "fn main(){}" > src/main.rs && \
     RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl && \
     rm -rf src/ && \
-    pwd && \
     rm -rf /usr/src/${project_name}/target/x86_64-unknown-linux-musl/release/${project_name} && \
     rm -rf /usr/src/${project_name}/target/x86_64-unknown-linux-musl/release/deps/${project_name}* && \
     rm -rf /usr/src/${project_name}/target/x86_64-unknown-linux-musl/release/${project_name}.d
