@@ -15,8 +15,9 @@ jobs:
       - run:
         name: build_image
         command: |
-          docker build sample -t kafuhamada/rocket-sample
-          docker push kafuhamada/rocket-sample
+          docker build sample -t ${DOCKER_USER}/rocket-sample
+          docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+          docker push ${DOCKER_USER}/rocket-sample
 workflows:
   version: 2
   test_and_build:
