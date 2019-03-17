@@ -8,6 +8,7 @@ circleCI practice
 - dockerfile の build 時間を減らすために pull を build の前にする
   - 気をつけるのは最初の pull のときで
     - imageがない場合があるので仮のimageを作って空にする
+- set -x シェルが実行したコマンドと引数を表示する
 ## Dockerfile
 ARG hoge  
 docker build . --build-arg hoge=[term]
