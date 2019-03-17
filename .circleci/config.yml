@@ -36,6 +36,7 @@ jobs:
             docker push $DOCKER_USER/$image_name
 workflows:
   version: 2
-  build:
+  myworkflow:
     jobs:
-      - build_main_app
+      - build_main_app:
+          context: docker-login
