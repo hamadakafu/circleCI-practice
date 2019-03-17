@@ -6,7 +6,6 @@ jobs:
     steps:
       - checkout # check out the code in the project directory
       - setup_remote_docker:
-          version: 17
           docker_layer_caching: true
       - run: 
           name: cargo-test-sample 
