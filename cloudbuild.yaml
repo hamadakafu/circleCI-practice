@@ -15,5 +15,6 @@ images:
   - 'us.gcr.io/$PROJECT_ID/sample:latest'
 
 # todo:
+# doker push original before git push
 # 別のtagをつける
 # 複数のimageをpushする
