@@ -6,17 +6,13 @@ steps:
   - 'build'
   - '-t'
   - 'us.gcr.io/$PROJECT_ID/sample:latest'
+  - '-t'
+  - 'us.gcr.io/$PROJECT_ID/sample:$BRANCH_NAME-$REVISION_ID'
   - '--build-arg'
   - 'project_name=sample'
   - '--cache-from'
   - 'us.gcr.io/$PROJECT_ID/sample:latest'
   - 'sample'
-- name: 'gcr.io/cloud-builders/docker'
-  args:
-  - 'tag'
-  - 'us.gcr.io/$PROJECT_ID/sample:latest'
-  - 'us.gcr.io/$PROJECT_ID/sample:$BRANCH_NAME-$REVISION_ID'
-  waitFor: ['build-sample-image']
 # mongodb image
 - name: 'gcr.io/cloud-builders/docker'
   id: 'build-mongodb-image'
@@ -24,16 +20,12 @@ steps:
   - 'build' 
   - '-t'
   - 'us.gcr.io/$PROJECT_ID/mongodb:latest'
+  - '-t'
+  - 'us.gcr.io/$PROJECT_ID/mongodb:$BRANCH_NAME-$REVISION_ID'
   - '--cache-from'
   - 'us.gcr.io/$PROJECT_ID/mongodb:latest'
   - 'mongodb'
   waitFor: ['-']
-- name: 'gcr.io/cloud-builders/docker'
-  args:
-  - 'tag'
-  - 'us.gcr.io/$PROJECT_ID/mongodb:latest'
-  - 'us.gcr.io/$PROJECT_ID/mongodb:$BRANCH_NAME-$REVISION_ID'
-  waitFor: ['build-mongodb-image']
 images:
   - 'us.gcr.io/$PROJECT_ID/sample:latest'
   - 'us.gcr.io/$PROJECT_ID/sample:$BRANCH_NAME-$REVISION_ID'
@@ -41,3 +33,4 @@ images:
   - 'us.gcr.io/$PROJECT_ID/mongodb:$BRANCH_NAME-$REVISION_ID'
 
 # todo:
+# tag を1つにまとめて実行する
