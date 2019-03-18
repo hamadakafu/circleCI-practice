@@ -1,0 +1,19 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['pull', 'us.gcr.io/$PROJECT_ID/sample:latest']
+- name: 'gcr.io/cloud-builders/docker'
+  args: 
+  - 'build'
+  - '-t'
+  - 'us.gcr.io/$PROJECT_ID/sample:latest'
+  - '--build-arg'
+  - 'project_name=sample'
+  - '--cache-from'
+  - 'us.gcr.io/$PROJECT_ID/sample:latest'
+  - 'sample'
+image:
+  - 'us.gcr.io/$PROJECT_ID/sample:latest'
+
+# todo:
+# 別のtagをつける
+# 複数のimageをpushする
