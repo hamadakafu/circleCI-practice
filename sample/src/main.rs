@@ -1,3 +1,4 @@
+#![feature(proc_macro_hygiene, decl_macro)]
 mod some {
     #[cfg(test)]
     mod tests {
@@ -11,6 +12,13 @@ mod some {
         x + 1
     }
 }
+use rocket::{routes, get};
+#[get("/")]
+fn hello() -> String {
+    "hello".to_string()
+}
 fn main() {
-    println!("Hello, world!");
+    rocket::ignite().mount("/", routes![
+        hello,
+    ]).launch();
 }
