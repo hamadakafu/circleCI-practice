@@ -11,7 +11,7 @@ steps:
   - '--cache-from'
   - 'us.gcr.io/$PROJECT_ID/sample:latest'
   - 'sample'
-image:
+images:
   - 'us.gcr.io/$PROJECT_ID/sample:latest'
 
 # todo:
