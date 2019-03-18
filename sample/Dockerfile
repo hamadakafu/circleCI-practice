@@ -15,7 +15,7 @@ RUN mkdir src/ && \
 COPY src src
 RUN RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
 
-FROM alpine:latest
+FROM alpine:3.9
 ARG project_name
 RUN apk add --no-cache libpq
 WORKDIR /root/
