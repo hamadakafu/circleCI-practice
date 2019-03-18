@@ -12,7 +12,7 @@ RUN mkdir src/ && \
     rm -rf src/ && \
     rm -rf /usr/src/${DIR_NAME}/target/x86_64-unknown-linux-musl/release/${DIR_NAME} && \
     rm -rf /usr/src/${DIR_NAME}/target/x86_64-unknown-linux-musl/release/deps/${DIR_NAME}* && \
-    rm -rf /usr/src/${DIR_NAME}/target/x86_64-unknown-linux-musl/release/${DIR_NAME}.d
+    rm -f /usr/src/${DIR_NAME}/target/x86_64-unknown-linux-musl/release/${DIR_NAME}.d
 COPY src src
 RUN RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
 
