@@ -15,7 +15,7 @@ mod some {
 use rocket::{routes, get};
 #[get("/")]
 fn hello() -> String {
-    "hello".to_string()
+    "hello, be built".to_string()
 }
 fn main() {
     rocket::ignite().mount("/", routes![
