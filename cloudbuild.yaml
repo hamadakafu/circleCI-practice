@@ -82,7 +82,7 @@ steps:
     - 'rollout'
     - 'status'
     - 'deployment'
-    - 'sample-server-deployment'
+    - 'sample-api-server-deployment'
     waitFor: ['deployment-default']
 
 timeout: 3600s 
