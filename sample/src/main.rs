@@ -1,13 +1,12 @@
-extern crate actix_web;
-use actix_web::{server, App, HttpRequest};
+#![feature(proc_macro_hygiene, decl_macro)]
 
-fn index(_req: &HttpRequest) -> &'static str {
-    "Hello world!"
+use rocket::{get, routes};
+
+#[get("/")]
+fn hello() -> String {
+    "hello".to_string()
 }
 
 fn main() {
-    server::new(|| App::new().resource("/", |r| r.f(index)))
-        .bind("0.0.0.0:8000")
-        .unwrap()
-        .run();
+    rocket::ignite().mount("/", routes![hello]).launch();
 }

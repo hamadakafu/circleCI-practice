@@ -1,47 +1,28 @@
-# FROM rustlang/rust:nightly as builder
-# ARG DIR_NAME
-# LABEL build_stage=true
-# RUN apt-get update && \
-#     apt-get install musl-tools -y && \
-#     rustup target add x86_64-unknown-linux-musl
-# WORKDIR /usr/src/${DIR_NAME}
-# COPY Cargo.toml Cargo.toml
-# RUN mkdir src/ && \
-#     echo "fn main(){}" > src/main.rs && \
-#     RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl && \
-#     rm -rf src/ && \
-#     rm -rf /usr/src/${DIR_NAME}/target/x86_64-unknown-linux-musl/release/${DIR_NAME} && \
-#     rm -rf /usr/src/${DIR_NAME}/target/x86_64-unknown-linux-musl/release/deps/${DIR_NAME}* && \
-#     rm -f /usr/src/${DIR_NAME}/target/x86_64-unknown-linux-musl/release/${DIR_NAME}.d
-# COPY src src
-# RUN RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
-# 
-# FROM alpine:3.9
-# ARG DIR_NAME
-# RUN apk add --no-cache libpq
-# WORKDIR /root/
-# COPY --from=builder /usr/src/${DIR_NAME}/target/x86_64-unknown-linux-musl/release/${DIR_NAME} app
-# ENV RUST_BACKTRACE 1
-# EXPOSE 8000
-# CMD ["./app"]
-
-# ------------------------------------------------------------------------------
-# Cargo Build Stage
-# ------------------------------------------------------------------------------
-FROM rust:latest as cargo-build
+FROM rust:latest as builder
 ARG DIR_NAME
-RUN apt-get update
-WORKDIR /usr/src/${DIR_NAME}
-COPY Cargo.toml Cargo.toml
-RUN mkdir src/
-RUN echo "fn main() {println!(\"if you see this, the build broke\")}" > src/main.rs
-RUN cargo build --release
-RUN rm -f target/release/deps/${DIR_NAME}*
-RUN rm -rf src
-COPY src src
 ENV USER=root
-ENV ROCKET_ENV=production
-RUN cargo build --release
-RUN cargo install --path .
+LABEL build_state=true
+RUN apt-get update && \
+    apt-get install musl-tools -y && \
+    rustup override set nightly && \
+    rustup target add x86_64-unknown-linux-musl
+WORKDIR /usr/src/${DIR_NAME}
+RUN mkdir src/
+RUN echo "fn main(){println!(\"if you see this, the build broke\")}" > src/main.rs
+COPY Cargo.toml Cargo.toml
+RUN RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
+RUN rm -rf /usr/src/${DIR_NAME}/target/x86_64-unknown-linux-musl/release/${DIR_NAME}
+RUN rm -f /usr/src/${DIR_NAME}/target/x86_64-unknown-linux-musl/release/deps/${DIR_NAME}*
+RUN rm -rf src/
+COPY src src
+RUN RUSTFLAGS=-Clinker=musl-gcc cargo build --release --target=x86_64-unknown-linux-musl
+
+FROM alpine:3.9
+ARG DIR_NAME
+RUN apk add --no-cache libpq
+WORKDIR /root/
+COPY --from=builder /usr/src/${DIR_NAME}/target/x86_64-unknown-linux-musl/release/${DIR_NAME} app
 EXPOSE 8000
-CMD [ "cargo" , "run" , "--release"]
+ENV RUST_BACKTRACE 1
+ENV ROCKET_ENV=production
+CMD ["./app"]
