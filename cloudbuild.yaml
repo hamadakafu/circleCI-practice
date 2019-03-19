@@ -88,9 +88,9 @@ steps:
       - '--key'
       - 'kubernetes-deployment-key'
       - '--ciphertext-file'
-      - 'k8s/production/loadbalancder.yaml.encode'
+      - 'k8s/production/loadbalancer.yaml.encode'
       - '--plaintext-file'
-      - 'k8s/production/loadbalancder.yaml'
+      - 'k8s/production/loadbalancer.yaml'
     waitFor: ['-']
     
   - name: 'gcr.io/cloud-builders/kubectl'
