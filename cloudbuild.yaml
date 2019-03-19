@@ -68,11 +68,11 @@ steps:
     waitFor: ['-']
 
   - name: 'gcr.io/cloud-builders/kubectl'
-    id: 'deployment'
+    id: 'deployment-default'
     args:
       - 'apply'
       - '-f'
-      - 'k8s'
+      - 'k8s/default'
       - '--record'
     waitFor: ['build-app', 'build-mongodb', 'get-credentials']
 
@@ -83,7 +83,7 @@ steps:
     - 'status'
     - 'deployment'
     - 'sample-server-deployment'
-    waitFor: ['deployment']
+    waitFor: ['deployment-default']
 
 timeout: 3600s 
 images:
