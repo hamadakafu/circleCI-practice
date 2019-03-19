@@ -60,7 +60,7 @@ steps:
     id: 'gcloud-setting'
     args:
       - 'container'
-      - 'cluster'
+      - 'clusters'
       - 'get-credentials'
       - 'rocket-practice-cluster'
       - '--zone=${_ZONE}'
