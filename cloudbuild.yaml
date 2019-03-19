@@ -80,7 +80,7 @@ steps:
     id : 'decrypto-deployment-production-loadbalancer'
     args:
       - 'kms'
-      - 'decrypto'
+      - 'decrypt'
       - '--location'
       - 'global'
       - '--keyring'
