@@ -20,3 +20,6 @@ run のインデントに注意
     name: hoge
     command: echo "fuga"
 ```
+
+## gcloud-builders/kubectl
+- サービスアカウントを調べてから権限を付与する
