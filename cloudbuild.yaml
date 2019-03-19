@@ -98,7 +98,7 @@ steps:
     args:
       - 'apply'
       - '-f'
-      - 'k8s/pruduction'
+      - 'k8s/production'
       - '--record'
     waitFor: ['decrypto-deployment-production-loadbalancer', 'build-app', 'build-mongodb', 'get-credentials']
 
