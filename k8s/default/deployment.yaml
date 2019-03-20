@@ -15,6 +15,5 @@ spec:
       containers:
       - name: sample-api-server 
         image: us.gcr.io/cloud-shell-gcloud/sample:latest
-        imagePullPolicy: Always
         ports:
         - containerPort: 8000

@@ -66,6 +66,7 @@ steps:
       - '--zone=${_ZONE}'
       - '--project=${PROJECT_ID}'
     waitFor: ['-']
+  
 
   - name: 'gcr.io/cloud-builders/kubectl'
     id: 'deployment-default'
@@ -75,6 +76,16 @@ steps:
       - 'k8s/default'
       - '--record'
     waitFor: ['build-app', 'build-mongodb', 'get-credentials']
+
+  - name: 'gcr.io/cloud-builders/kubectl'
+    id: 'patch-default-deployment'
+    args:
+      - 'patch'
+      - 'deployment'
+      - 'sample-api-server-deployment'
+      - '-p' 
+      - '{"spec":{"template":{"spec":{"containers":[{"name": "sample-api-server", "image": "us.gcr.io/$PROJECT_ID/sample:$BRANCH_NAME-$REVISION_ID}]}}}}"'
+    waitFor: ['deployment-default']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id : 'decrypto-deployment-production-loadbalancer'
@@ -92,7 +103,7 @@ steps:
       - '--plaintext-file'
       - 'k8s/production/loadbalancer.yaml'
     waitFor: ['-']
-    
+
   - name: 'gcr.io/cloud-builders/kubectl'
     id: 'deployment-production'
     args:
