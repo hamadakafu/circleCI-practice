@@ -14,5 +14,5 @@ fn name_age(name: &RawStr, age: usize) -> String {
 }
 
 fn main() {
-    rocket::ignite().mount("/", routes![hello]).launch();
+    rocket::ignite().mount("/", routes![hello, name_age]).launch();
 }
