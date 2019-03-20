@@ -44,6 +44,13 @@ steps:
       - 'DIR_NAME=sample'
       - 'sample'
     waitFor: ['build-app-builder', 'pull-app']
+  
+  - name: 'gcr.io/cloud-builders/docker'
+    id: 'push-app'
+    args:
+      - 'push'
+      - 'us.gcr.io/${PROJECT_ID}/sample:$BRANCH_NAME-$REVISION_ID'
+    waitFor: ['build-app'] 
 
   - name: 'gcr.io/cloud-builders/docker'
     id: 'build-mongodb'
@@ -85,7 +92,7 @@ steps:
       - 'sample-api-server-deployment'
       - '-p' 
       - '{"spec":{"template":{"spec":{"containers":[{"name": "sample-api-server", "image": "us.gcr.io/$PROJECT_ID/sample:$BRANCH_NAME-$REVISION_ID}]}}}}"'
-    waitFor: ['deployment-default']
+    waitFor: ['deployment-default', 'push-app']
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id : 'decrypto-deployment-production-loadbalancer'
