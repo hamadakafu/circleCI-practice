@@ -10,14 +10,15 @@ jobs:
           command: |
             echo "${CIRCLE_BRANCH}"
             if [ "${CIRCLE_BRANCH}" = "build_base_dev" ]; then 
-                export BUILD_ENV="dev" 
+                echo 'export BUILD_ENV="dev"' >> $BASH_ENV
             elif [ "${CIRCLE_BRANCH}" = "build_base_stg" ]; then
-                export BUILD_ENV="stg" 
+                echo 'export BUILD_ENV="stg"' >> $BASH_ENV
             elif [ "${CIRCLE_BRANCH}" = "build_base_prd" ]; then 
-                export BUILD_ENV="prd" 
+                echo 'export BUILD_ENV="prd"' >> $BASH_ENV
             else
               exit 1
             fi
+            source $BASH_ENV
       - run:
           name: echo build env
           command: |
