@@ -10,7 +10,7 @@ jobs:
           command: |
             if [ ${GIT_BRANCH} = build_base_dev ]; then 
                 export BUILD_ENV="dev" 
-            elif [ ${GIT_BRANCH} = build_base_dev ]
+            elif [ ${GIT_BRANCH} = build_base_dev ]; then
                 export BUILD_ENV="stg" 
             elif [ ${GIT_BRANCH} = build_base_dev ]; then 
                 export BUILD_ENV="prd" 
