@@ -2,27 +2,42 @@ version: 2
 jobs:
   build_base:
     docker: 
-      - image: rustlang/rust:nightly # the primary container, where your job's commands are run
+      - image: alpine:3.9 # the primary container, where your job's commands are run
     steps:
       - checkout # check out the code in the project directory
       - run:
-          name: echo branch name
+          name: set build env
           command: |
-            echo "branch name| ${CIRCLE_BRANCH}"
-            echo ${CIRCLE_BRANCH}
+            if [ ${GIT_BRANCH} = build_base_dev ]; then 
+                export BUILD_ENV="dev" 
+            elif [ ${GIT_BRANCH} = build_base_dev ]
+                export BUILD_ENV="stg" 
+            elif [ ${GIT_BRANCH} = build_base_dev ]; then 
+                export BUILD_ENV="prd" 
+            else
+              exit 1
+            fi
+      - run:
+          name: echo build env
+          command: |
+            echo ${BUILD_ENV}
 
 workflows:
   version: 2
   build:
     jobs:
+      - build_base_dev:
+          filters:
+            branches:
+              only: 
+                - build_base_dev
+      - build_base-stg:
+          filters:
+            branches:
+              only: 
+                - build_base_stg
       - build_base:
           filters:
             branches:
-              # only: build-packer-base
               only: 
-                - dev 
-                - stg
-                - prd 
-            tags:
-              ignore: /.*/
-              only: /^build-packer-base/
+                - build_base_prd
