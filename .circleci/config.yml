@@ -19,6 +19,8 @@ jobs:
               exit 1
             fi
             source $BASH_ENV
+            echo $BASH_ENV
+            echo "${BUILD_ENV}"
       - run:
           name: echo build env
           command: |
