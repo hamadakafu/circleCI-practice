@@ -8,7 +8,7 @@ jobs:
       - run:
           name: set build env
           command: |
-            echo "${CIRCLE_BRANCH}"
+            echo "Now branch is ${CIRCLE_BRANCH}"
             if [ "${CIRCLE_BRANCH}" = "build_base_dev" ]; then 
                 echo 'export BUILD_ENV="dev"' >> ${BASH_ENV}
             elif [ "${CIRCLE_BRANCH}" = "build_base_stg" ]; then
@@ -23,7 +23,7 @@ jobs:
       - run:
           name: echo build env
           command: |
-            echo "${BUILD_ENV}"
+            echo '${BUILD_ENV}'
 
 workflows:
   version: 2
