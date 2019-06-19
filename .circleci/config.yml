@@ -8,11 +8,11 @@ jobs:
       - run:
           name: set build env
           command: |
-            if [ ${GIT_BRANCH} = build_base_dev ]; then 
+            if [ ${GIT_BRANCH} == build_base_dev ]; then 
                 export BUILD_ENV="dev" 
-            elif [ ${GIT_BRANCH} = build_base_dev ]; then
+            elif [ ${GIT_BRANCH} == build_base_dev ]; then
                 export BUILD_ENV="stg" 
-            elif [ ${GIT_BRANCH} = build_base_dev ]; then 
+            elif [ ${GIT_BRANCH} == build_base_dev ]; then 
                 export BUILD_ENV="prd" 
             else
               exit 1
