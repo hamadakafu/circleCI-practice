@@ -25,3 +25,4 @@ workflows:
                 - prd 
             tags:
               only: /^build-packer-base$/
+              ignore: /.*/
