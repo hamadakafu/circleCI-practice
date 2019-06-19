@@ -45,13 +45,6 @@ steps:
       - 'sample'
     waitFor: ['build-app-builder', 'pull-app']
   
-  # - name: 'gcr.io/cloud-builders/docker'
-  #   id: 'push-app'
-  #   args:
-  #     - 'push'
-  #     - 'us.gcr.io/${PROJECT_ID}/sample:$BRANCH_NAME-$REVISION_ID'
-  #   waitFor: ['build-app'] 
-
   - name: 'gcr.io/cloud-builders/docker'
     id: 'build-mongodb'
     args:

@@ -23,3 +23,6 @@ run のインデントに注意
 
 ## gcloud-builders/kubectl
 - サービスアカウントを調べてから権限を付与する
+
+## kubernetes 
+k patch でdeployment のimageを更新
