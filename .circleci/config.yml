@@ -8,12 +8,12 @@ jobs:
       - run:
           name: set build env
           command: |
-            echo "${GIT_BRANCH}"
-            if [ "${GIT_BRANCH}" = "build_base_dev" ]; then 
+            echo "${CIRCLE_BRANCH}"
+            if [ "${CIRCLE_BRANCH}" = "build_base_dev" ]; then 
                 export BUILD_ENV="dev" 
-            elif [ "${GIT_BRANCH}" = "build_base_stg" ]; then
+            elif [ "${CIRCLE_BRANCH}" = "build_base_stg" ]; then
                 export BUILD_ENV="stg" 
-            elif [ "${GIT_BRANCH}" = "build_base_prd" ]; then 
+            elif [ "${CIRCLE_BRANCH}" = "build_base_prd" ]; then 
                 export BUILD_ENV="prd" 
             else
               exit 1
