@@ -34,11 +34,11 @@ workflows:
   build:
     jobs:
       - build_base:
-          build_env: dev
           filters:
             branches:
               only: 
                 - build_base_dev
+          build_env: dev
       - build_base:
           build_env: stg 
           filters:
