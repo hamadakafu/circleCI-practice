@@ -12,6 +12,7 @@ commands:
             echo -n 'export BUILD_ENV="<< parameters.build_env >>"' >> $BASH_ENV
             source $BASH_ENV	
             echo "BUILD_ENV is ${BUILD_ENV}"
+            echo "now branch split_env"
 jobs:
   build_base:
     parameters:
