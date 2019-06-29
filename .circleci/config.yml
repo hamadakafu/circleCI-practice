@@ -9,7 +9,7 @@ commands:
       - run:
           name: set BUILD_ENV
           command: |
-            echo -n 'export BUILD_ENV="<< parameters.build_env >>"'
+            echo -n 'export BUILD_ENV="<< parameters.build_env >>"' >> $BASH_ENV
             source $BASH_ENV	
             echo "BUILD_ENV is ${BUILD_ENV}"
 jobs:
