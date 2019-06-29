@@ -1,4 +1,17 @@
 version: 2.1
+commands:
+  set_build_env:
+    parameters:
+      build_env:
+        type: enum
+        enum: ['dev', 'stg', 'prd']
+    steps:
+      - run:
+          name: set BUILD_ENV
+          command: |
+            echo -n 'export BUILD_ENV="<< parameters.build_env >>"'
+            source $BASH_ENV	
+            echo "BUILD_ENV is ${BUILD_ENV}"
 jobs:
   build_base:
     parameters:
@@ -9,12 +22,8 @@ jobs:
       - image: centos:7 # the primary container, where your job's commands are run
     steps:
       - checkout # check out the code in the project directory
-      - run:
-          name: set build env
-          command: |
-            echo 'export BUILD_ENV="<< prameters.build_env >>"' >> ${BASH_ENV}
-            source ${BASH_ENV}
-            echo "${BUILD_ENV}"
+      - set_build_env:
+          build_env: << parameters.build_env >>
       - run:
           name: echo build env
           command: |
