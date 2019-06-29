@@ -14,6 +14,7 @@ commands:
             echo "BUILD_ENV is ${BUILD_ENV}"
             echo "now branch split_env"
 jobs:
+ajfj
   build_base:
     parameters:
       build_env:
