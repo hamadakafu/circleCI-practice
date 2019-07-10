@@ -9,12 +9,15 @@ commands:
       - run:
           name: set BUILD_ENV
           command: |
-            echo -n 'export BUILD_ENV="<< parameters.build_env >>"' >> $BASH_ENV
-            source $BASH_ENV	
+            if [ "<< parameters.build_env >>" = "prd" ]; then
+              export BUILD_ENV="<< parameters.build_env >>"
+            elif [ "<< parameters.build_env >>" = "stg" ]; then 
+              export BUILD_ENV="<< parameters.build_env >>"
+            fi
+
             echo "BUILD_ENV is ${BUILD_ENV}"
             echo "now branch split_env"
 jobs:
-ajfj
   build_base:
     parameters:
       build_env:
