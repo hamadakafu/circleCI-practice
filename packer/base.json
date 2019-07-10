@@ -24,6 +24,12 @@
   ],
   "provisioners": [
     {
+        "type": "shell",
+        "inline": [
+            "sudo mkdir /etc/sample"
+        ]
+    },
+    {
       "type": "file",
       "source": "./sample/",
       "destination": "/etc/sample/"
