@@ -19,8 +19,7 @@
       "disk_name": "gmo-am-akane-manage-{{user `build_env`}}",
       "disk_size": "10",
       "disk_type": "pd-ssd",
-      "tags": "gmo-am-akane-manage-{{user `build_env`}}",
-      "//subnetwork": "projects/gmo-am-akane/regions/asia-northeast1/subnetworks/gmo-am-akane-[prd | build_env]-private"
+      "tags": "gmo-am-akane-manage-{{user `build_env`}}"
     }
   ],
   "provisioners": [
