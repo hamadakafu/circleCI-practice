@@ -26,7 +26,8 @@
     {
         "type": "shell",
         "inline": [
-            "sudo mkdir /etc/sample"
+            "sudo mkdir /etc/sample",
+            "sudo chown -R packer:packer /etc/sample"
         ]
     },
     {
