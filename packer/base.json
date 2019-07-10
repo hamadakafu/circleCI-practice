@@ -32,7 +32,7 @@
     {
       "type": "file",
       "source": "./sample/",
-      "destination": "/etc/sample/"
+      "destination": "/etc/sample"
     }
   ]
 }
