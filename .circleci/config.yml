@@ -1,56 +1,101 @@
 version: 2.1
 commands:
-  set_build_env:
-    parameters:
-      build_env:
-        type: enum
-        enum: ['dev', 'stg', 'prd']
+  gcloud_auth:
     steps:
       - run:
-          name: set BUILD_ENV
+          name: gcloud auth
           command: |
-            if [ "<< parameters.build_env >>" = "prd" ]; then
-              export BUILD_ENV="<< parameters.build_env >>"
-            elif [ "<< parameters.build_env >>" = "stg" ]; then 
-              export BUILD_ENV="<< parameters.build_env >>"
-            fi
+            if [ "${BUILD_ENV}" = "prd" ]; then
+              echo ${GCLOUD_SERVICE_KEY_PRD} > ${HOME}/gcloud-service-key.json
+              gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+              gcloud config set project ${GCLOUD_PROJECT_PRD}
 
-            echo "BUILD_ENV is ${BUILD_ENV}"
-            echo "now branch split_env"
+            elif [ "${BUILD_ENV}" = "stg" ]; then
+              echo ${GCLOUD_SERVICE_KEY_STG} > ${HOME}/gcloud-service-key.json
+              gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+              gcloud config set project ${GCLOUD_PROJECT_STG}
+
+            elif [ "${BUILD_ENV}" = "dev" ]; then 
+              echo "Only prd and stg can be built at this point. If You set env for dev, then you can build dev. Check .config.yml"
+              exit 1
+
+            else 
+              echo "Circleci's logic error"
+              exit 1
+            fi 
+
+          no_output_timeout: 30m
+  
+  packer: 
+    parameters:
+      packer_file:
+        type: string
+    steps:
+      - run: 
+          name: packer build
+          command: |
+            if [ "${BUILD_ENV}" = "prd" ]; then
+              export PACKER_GCLOUD_PROJECT=${GCLOUD_PROJECT_PRD}
+              export GOOGLE_APPLICATION_CREDENTIALS="${HOME}/gcloud-service-key.json"
+
+            elif [ "${BUILD_ENV}" = "stg" ]; then 
+              export PACKER_GCLOUD_PROJECT=${GCLOUD_PROJECT_STG}
+              export GOOGLE_APPLICATION_CREDENTIALS="${HOME}/gcloud-service-key.json"
+
+            elif [ "${BUILD_ENV}" = "dev" ]; then 
+              echo "Only prd and stg can be built at this point. If You set env for dev, then you can build dev. Check .config.yml"
+              exit 1
+
+            else 
+              echo "Circleci's logic error"
+              exit 1
+            fi 
+
+            apt -y install unzip
+            curl -O https://releases.hashicorp.com/packer/1.3.3/packer_1.3.3_linux_amd64.zip
+            unzip -o packer_1.3.3_linux_amd64.zip -d /usr/local/bin/
+            rm -rf packer_1.3.3_linux_amd64.zip
+
+            /usr/local/bin/packer validate << parameters.packer_file >>
+            /usr/local/bin/packer build << parameters.packer_file >>
 jobs:
   build_base:
     parameters:
       build_env:
         type: enum
         enum: ['dev', 'stg', 'prd']
+      packer_file:
+        type: string
     docker: 
-      - image: centos:7 # the primary container, where your job's commands are run
+      - image: google/cloud-sdk:latest
+    environment:
+      BUILD_ENV: << parameters.build_env >>
     steps:
       - checkout # check out the code in the project directory
-      - set_build_env:
-          build_env: << parameters.build_env >>
-      - run:
-          name: echo build env
-          command: |
-            echo "${BUILD_ENV}"
+      - gcloud_auth
+      - packer:
+          packer_file: << parameters.packer_file >>
 
 workflows:
   build:
     jobs:
       - build_base:
+          build_env: dev
+          packer_file: ./packer/base.json
           filters:
             branches:
               only: 
                 - build_base_dev
-          build_env: dev
       - build_base:
           build_env: stg 
+          packer_file: ./packer/base.json
           filters:
             branches:
               only: 
                 - build_base_stg
       - build_base:
           build_env: prd
+          packer_file: ./packer/base.json
           filters:
             branches:
               only: 
